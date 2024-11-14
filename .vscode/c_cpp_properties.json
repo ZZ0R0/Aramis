@@ -5,10 +5,12 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/**",
-                "/usr/x86_64-w64-mingw32/include"
+                "C:/Users/robin/Desktop/Aramis/Payload_Type/ceos/ceos/agent_code/ceos/core/**",
+                "C:/Users/robin/Desktop/Aramis/Payload_Type/ceos/ceos/agent_code/ceos/commands/**",
+    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "C:/MinGW/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-arm64"

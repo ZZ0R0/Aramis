@@ -7,10 +7,19 @@ CPPFLAGS += -Wl,-s,--no-seh,--enable-stdcall-fixup,--gc-sections  -Wno-pointer-a
 CXX      := x86_64-w64-mingw32-g++
 BUILD    := ./build
 
-# Update INCLUDE and SRC to cover new directories
-INCLUDE  := -I framework/include -I commands/cd -I commands/shell
-SRC      := $(wildcard framework/source/*.cpp framework/source/*/*.cpp commands/*/*.cpp commands/*/*/*.cpp *.cpp)
+# Global Include Paths
+INCLUDE := -I core/include \
+           -I core \
+           -I commands/wrappers \
+           -I commands/bases
 
+# Source Files
+SRC := $(wildcard *.cpp) \
+       $(wildcard core/*.cpp) \
+       $(wildcard core/*/*.cpp) \
+       $(wildcard commands/wrappers/*/*.cpp) \
+       $(wildcard commands/bases/*/*.cpp)
+	   
 all : exe dll
 
 exe: clean

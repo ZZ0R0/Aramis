@@ -6,7 +6,10 @@
 #include <string>
 #include "Parser.h"
 #include "Package.h"
-#include "Shell.h"
+#include "WrapCd.h"
+#include "WrapExec.h"
+#include "WrapLs.h"
+#include "WrapPwd.h"
 
 #define SHELL_CMD 0x54
 #define CD_CMD 0x55

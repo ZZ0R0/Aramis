@@ -1,11 +1,7 @@
+#include "BaseExec.h"
 #include <iostream>
-#include <cstdio>
-#include <cstring>
-#include <string>
-#include <windows.h>
-#include "command.h"
 
-BOOL executeCommand(std::string cmd, std::string currentDirectory, std::string &output)
+BOOL baseExec(std::string cmd, std::string result)
 {
     CHAR psCommand[2048];
     snprintf(psCommand, sizeof(psCommand), "powershell -NoProfile -WindowStyle Hidden -Command \"%s\"", cmd.c_str());
@@ -64,7 +60,7 @@ BOOL executeCommand(std::string cmd, std::string currentDirectory, std::string &
     while (ReadFile(hStdOutRead, buffer, sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0)
     {
         buffer[bytesRead] = '\0';
-        output += buffer;
+        result += buffer;
     }
 
     CloseHandle(hStdOutRead);
