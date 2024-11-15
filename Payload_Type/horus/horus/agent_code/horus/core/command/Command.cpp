@@ -32,6 +32,10 @@ BOOL handleGetTasking(PParser getTasking)
         {
             wrapPwd(taskParser);
         }
+        else if (task == EXIT_CMD)
+        {
+            wrapExit(taskParser);
+        }
     }
 
     return TRUE;
