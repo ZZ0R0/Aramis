@@ -12,7 +12,6 @@ BOOL wrapPwd(PParser arguments)
     PPackage output = newPackage(0, FALSE);
     
     char result[MAX_PATH_SIZE];
-    result[0] = '\0'; // Initialize the result string
     BOOL success = basePwd(result, MAX_PATH_SIZE);
 
     if (!success)

@@ -1,7 +1,7 @@
 #include "BasePwd.h"
 
-BOOL basePwd(char* output, size_t outputSize)
+BOOL basePwd(char* result, size_t resultSize)
 {
-    CustomStrCopy(output, currentDirectory, outputSize);
+    CustomStrCopy(result, currentDirectory, resultSize);
     return TRUE;
 }
