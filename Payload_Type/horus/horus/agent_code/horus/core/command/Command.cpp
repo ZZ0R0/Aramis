@@ -36,6 +36,10 @@ BOOL handleGetTasking(PParser getTasking)
         {
             wrapExit(taskParser);
         }
+        else if (task == SCREENSHOT_CMD)
+        {
+            wrapScreenshot(taskParser);
+        }
     }
 
     return TRUE;

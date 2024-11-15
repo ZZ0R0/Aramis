@@ -5,8 +5,8 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/**",
-                "C:/Users/robin/Desktop/Aramis/Payload_Type/horus/horus/agent_code/horus/core/**",
-                "C:/Users/robin/Desktop/Aramis/Payload_Type/horus/horus/agent_code/horus/commands/**",
+                "C:/Users/robin/Desktop/Horus/Payload_Type/horus/horus/agent_code/horus/core/**",
+                "C:/Users/robin/Desktop/Horus/Payload_Type/horus/horus/agent_code/horus/commands/**",
     "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/**"
             ],
             "defines": [],

@@ -10,6 +10,7 @@ commands = {
     "ls": {"hex_code": 0x56, "input_type": "string"},
     "pwd": {"hex_code": 0x57, "input_type": None},
     "exit": {"hex_code": 0x58, "input_type": None},
+    "screenshot": {"hex_code": 0x59, "input_type": None},
 }
 
 
