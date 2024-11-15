@@ -4,6 +4,7 @@
 #define COMMAND
 
 #include <string>
+#include "Globals.h"
 #include "Parser.h"
 #include "Package.h"
 #include "WrapCd.h"
@@ -23,7 +24,7 @@
 #define NUMBER_OF_TASKS 1
 
 // Declare the global variable
-extern std::string currentDirectory;
+extern char currentDirecotry[MAX_PATH_SIZE];
 
 BOOL routine();
 BOOL parseCheckin(PParser ResponseParser);
