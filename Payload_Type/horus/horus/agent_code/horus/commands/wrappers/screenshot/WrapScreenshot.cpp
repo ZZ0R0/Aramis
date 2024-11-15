@@ -11,7 +11,7 @@ BOOL wrapScreenshot(PParser arguments)
     addString(responseTask, taskUuid, FALSE);
 
     // Initialize buffer for screenshot
-    #define MAX_SCREENSHOT_SIZE 1000000 // Adjust as needed
+    #define MAX_SCREENSHOT_SIZE 10485760 // Adjust as needed
     char* screenshotBuffer = (char*)LocalAlloc(LMEM_ZEROINIT, MAX_SCREENSHOT_SIZE);
     size_t screenshotSize = 0;
 
