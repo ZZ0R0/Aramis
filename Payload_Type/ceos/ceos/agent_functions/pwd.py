@@ -2,36 +2,28 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 
 
-class ShellArguments(TaskArguments):
+class PwdArguments(TaskArguments):
+
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
-        self.args = [
-            CommandParameter(
-                name="command", 
-                type=ParameterType.String, 
-                description="Command to run"
-            ),
-        ]
+        self.args = []
 
     async def parse_arguments(self):
-        if len(self.command_line) == 0:
-            raise ValueError("Must supply a command to run")
-        self.add_arg("command", self.command_line)
+        if len(self.command_line.strip()) > 0:
+            raise Exception("pwd takes no command line arguments.")
+        pass
 
-    async def parse_dictionary(self, dictionary_arguments):
-        self.load_args_from_dictionary(dictionary_arguments)
-
-class ShellCommand(CommandBase):
-    cmd = "shell"
+class PwdCommand(CommandBase):
+    cmd = "pwd"
     needs_admin = False
-    help_cmd = "shell {command}"
-    description = "This runs {command} in a terminal."
+    help_cmd = "pwd"
+    description = "Print working directory."
     version = 1
-    author = "@RedTeamSNCF"
-    attackmapping = ["T1059"]
-    argument_class = ShellArguments
+    author = "@ZZ0R0"
+    attackmapping = ["T1083"]
+    argument_class = PwdArguments
     attributes = CommandAttributes(
-        supported_os=[ SupportedOS.MacOS, SupportedOS.Linux, SupportedOS.Windows ]
+        supported_os=[SupportedOS.Windows ]
     )
 
     async def create_tasking(self, task: MythicTask) -> MythicTask:

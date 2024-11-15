@@ -27,7 +27,7 @@ class ShellCommand(CommandBase):
     help_cmd = "shell {command}"
     description = "This runs {command} in a terminal."
     version = 1
-    author = "@RedTeamSNCF"
+    author = "@ZZ0R0"
     attackmapping = ["T1059"]
     argument_class = ShellArguments
     attributes = CommandAttributes(

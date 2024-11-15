@@ -2,40 +2,55 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 
 
-class ShellArguments(TaskArguments):
+class LsArguments(TaskArguments):
+
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = [
             CommandParameter(
-                name="command", 
-                type=ParameterType.String, 
-                description="Command to run"
+                name="path",
+                cli_name="path",
+                display_name="Path to list files from.",
+                type=ParameterType.String,
+                description="Path to list files from.",
+                parameter_group_info=[
+                    ParameterGroupInfo(
+                        required=False, group_name="Default", ui_position=1
+                    ),
+                ],
             ),
         ]
 
     async def parse_arguments(self):
-        if len(self.command_line) == 0:
-            raise ValueError("Must supply a command to run")
-        self.add_arg("command", self.command_line)
+        # Check if named parameters were defined
+        cli_names = [arg.cli_name for arg in self.args if arg.cli_name is not None]
+        if (
+            any([self.raw_command_line.startswith(f"-{cli_name} ") for cli_name in cli_names])
+            or any([f" -{cli_name} " in self.raw_command_line for cli_name in cli_names])
+        ):
+            args = json.loads(self.command_line)
+        # Freeform unmatched arguments
+        else:
+            args = {"path": "."}
+            if len(self.raw_command_line) > 0:
+                args["path"] = self.raw_command_
 
-    async def parse_dictionary(self, dictionary_arguments):
-        self.load_args_from_dictionary(dictionary_arguments)
-
-class ShellCommand(CommandBase):
-    cmd = "shell"
+class LsCommand(CommandBase):
+    cmd = "ls"
     needs_admin = False
-    help_cmd = "shell {command}"
-    description = "This runs {command} in a terminal."
-    version = 1
-    author = "@RedTeamSNCF"
-    attackmapping = ["T1059"]
-    argument_class = ShellArguments
+    help_cmd = "ls [path]"
+    description = "List files and folders in a specified directory (defaults to your current working directory.)"
+    version = 3
+    supported_ui_features = ["file_browser:list"]
+    author = "@ZZ0R0"
+    argument_class = LsArguments
+    attackmapping = ["T1106", "T1083"]
     attributes = CommandAttributes(
-        supported_os=[ SupportedOS.MacOS, SupportedOS.Linux, SupportedOS.Windows ]
+        supported_os=[SupportedOS.Windows ]
     )
 
     async def create_tasking(self, task: MythicTask) -> MythicTask:
-        task.display_params = task.args.get_arg("command")
+        task.display_params = task.args.get_arg("path")
         return task
 
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
