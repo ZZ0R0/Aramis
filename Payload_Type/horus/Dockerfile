@@ -17,7 +17,7 @@ RUN apt-get -y update && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
-COPY requirements.txt /
+COPY requirements.txt /requirements.txt
 RUN pip3 install -r /requirements.txt
 
 WORKDIR /Mythic/
