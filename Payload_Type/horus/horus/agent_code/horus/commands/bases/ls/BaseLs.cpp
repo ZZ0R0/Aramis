@@ -2,30 +2,30 @@
 
 BOOL baseLs(const char* path, char* result, size_t resultSize) {
 
-    char previousCwd[MAX_PATH];
+    char previousCwd[MAX_PATH_SIZE];
 
     // Get the current working directory
-    if (!GetCurrentDirectoryA(MAX_PATH, previousCwd)) {
+    if (!GetCurrentDirectoryA(MAX_PATH_SIZE, previousCwd)) {
         return FALSE;
     }
    
-    char completePath[MAX_PATH];
+    char completePath[MAX_PATH_SIZE];
    
     if (CustomPathIsRelativeA(path)) {
         // Build completePath = currentDirectory + "\\" + path
 
         // Initialize completePath with currentDirectory
-        CustomStrCopy(completePath, currentDirectory, MAX_PATH);
+        CustomStrCopy(completePath, currentDirectory, MAX_PATH_SIZE);
 
         // Append "\\"
-        CustomStrCat(completePath, "\\", MAX_PATH);
+        CustomStrCat(completePath, "\\", MAX_PATH_SIZE);
 
         // Append path
-        CustomStrCat(completePath, path, MAX_PATH);
+        CustomStrCat(completePath, path, MAX_PATH_SIZE);
     }
     else {
         // Copy path into completePath
-        CustomStrCopy(completePath, path, MAX_PATH);
+        CustomStrCopy(completePath, path, MAX_PATH_SIZE);
     }
 
     // Set the current directory to the target path
