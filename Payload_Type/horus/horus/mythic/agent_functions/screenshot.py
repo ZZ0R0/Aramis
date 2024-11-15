@@ -35,5 +35,7 @@ class ScreenshotCommand(CommandBase):
 
 
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
+        # Register the screenshot with Mythic
+        await MythicRPC().execute("create_file", task_id=task.Task.ID, file=response, is_screenshot=True)
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
