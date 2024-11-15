@@ -33,10 +33,7 @@ class ScreenshotCommand(CommandBase):
         # No additional tasking needed
         return task
 
+
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
-        # Handle the screenshot response
-        endpoint_response = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
-        # Assuming the screenshot data is sent as raw bytes in the response
-        with open(f"screenshot_{task.Task.ID}.bmp", "wb") as f:
-            f.write(response)
-        return endpoint_response
+        resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
+        return resp
