@@ -1,6 +1,6 @@
 #pragma once
 #include <windows.h>
-#include <string>
 #include "Globals.h"
+#include "Utils.h"
 
-BOOL baseLs(std::string path, std::string &output);
+BOOL baseLs(const char* path, char* result, size_t resultSize);

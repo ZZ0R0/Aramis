@@ -1,9 +1,6 @@
 #include "BaseLs.h"
-#include <windows.h>
-#include <shlwapi.h>  // Include for PathIsRelativeA
-#include <string>
 
-BOOL baseLs(std::string path, std::string &output){
+BOOL baseLs(const char* path, char* result, size_t resultSize) {
 
     char previousCwd[MAX_PATH];
 
@@ -12,45 +9,53 @@ BOOL baseLs(std::string path, std::string &output){
         return FALSE;
     }
    
-    // Get the current working directory
-    std::string completePath;
+    char completePath[MAX_PATH];
+   
+    if (CustomPathIsRelativeA(path)) {
+        // Build completePath = currentDirectory + "\\" + path
 
+        // Initialize completePath with currentDirectory
+        CustomStrCopy(completePath, currentDirectory, MAX_PATH);
 
-    if (PathIsRelativeA(path.c_str()))
-    {
-        completePath = currentDirectory + "\\" + path;
+        // Append "\\"
+        CustomStrCat(completePath, "\\", MAX_PATH);
+
+        // Append path
+        CustomStrCat(completePath, path, MAX_PATH);
     }
-    else
-    {
-        completePath = path;
+    else {
+        // Copy path into completePath
+        CustomStrCopy(completePath, path, MAX_PATH);
     }
 
-   // Change the current directory to the specified path
-    if (!SetCurrentDirectoryA(path.c_str())) {
+    // Set the current directory to the target path
+    if (!SetCurrentDirectoryA(completePath)) {
         return FALSE;
     }
+
+    // Initialize result
+    result[0] = '\0';
 
     // Create a search handle
     WIN32_FIND_DATAA findFileData;
     HANDLE hFind = FindFirstFileA("*", &findFileData);
 
     // Check if the handle is valid
-    if (hFind == INVALID_HANDLE_VALUE)
-    {
+    if (hFind == INVALID_HANDLE_VALUE) {
         return FALSE;
     }
 
     // Loop through all files in the directory
-    do
-    {
-        // Add the file name to the output
-        output += findFileData.cFileName;
-        output += "\n";
+    do {
+        // Add the file name to the result
+        CustomStrCat(result, findFileData.cFileName, resultSize);
+        CustomStrCat(result, "\n", resultSize);
     } while (FindNextFileA(hFind, &findFileData) != 0);
 
     // Close the search handle
     FindClose(hFind);
 
+    // Restore the previous working directory
     SetCurrentDirectoryA(previousCwd);
 
     return TRUE;

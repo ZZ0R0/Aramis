@@ -1,5 +1,5 @@
 #include <windows.h>
-#include <string>
 #include "Globals.h"
+#include "Utils.h"
 
-BOOL basePwd(std::string &output);
+BOOL basePwd(char* result, size_t resultSize);

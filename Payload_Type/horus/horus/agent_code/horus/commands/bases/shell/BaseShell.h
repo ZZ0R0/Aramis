@@ -1,8 +1,7 @@
 #pragma once
 
-#include <string>
 #include <windows.h>
-#include <cstdio>
 #include "Globals.h"
+#include "Utils.h"
 
-BOOL baseShell(std::string cmd, std::string &result);
+BOOL baseShell(const char* cmd, char* result, size_t resultSize);

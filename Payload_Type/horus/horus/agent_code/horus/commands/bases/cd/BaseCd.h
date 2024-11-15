@@ -1,5 +1,5 @@
 #include <windows.h>
-#include <string>
 #include "Globals.h"
+#include "Utils.h"
 
-BOOL baseCd(std::string newDir);
+BOOL baseCd(const char* path);

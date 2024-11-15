@@ -1,5 +1,65 @@
 #include "Utils.h"
 
+// Custom string length function
+size_t CustomStrLen(const char* str) {
+    size_t len = 0;
+    while (str[len] != '\0') {
+        len++;
+    }
+    return len;
+}
+
+void CustomStrCopy(char* dest, const char* src, size_t destSize)
+{
+    size_t i = 0;
+    while (i + 1 < destSize && src[i] != '\0')
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
+void CustomStrCat(char* dest, const char* src, size_t destSize) {
+    size_t destLen = 0;
+    // Find the end of dest
+    while (destLen < destSize && dest[destLen] != '\0') {
+        destLen++;
+    }
+
+    size_t srcIndex = 0;
+    // Append src to dest without exceeding destSize
+    while (destLen + srcIndex + 1 < destSize && src[srcIndex] != '\0') {
+        dest[destLen + srcIndex] = src[srcIndex];
+        srcIndex++;
+    }
+
+    // Null-terminate dest
+    dest[destLen + srcIndex] = '\0';
+}
+
+// Custom implementation of PathIsRelativeA
+BOOL CustomPathIsRelativeA(const char* path) {
+    if (path == NULL) {
+        return FALSE;
+    }
+
+    // Check for drive letter (e.g., "C:\")
+    if (((path[0] >= 'A' && path[0] <= 'Z') || (path[0] >= 'a' && path[0] <= 'z')) &&
+        path[1] == ':' &&
+        (path[2] == '\\' || path[2] == '/')) {
+        return FALSE; // Absolute path
+    }
+
+    // Check for UNC path (e.g., "\\server\share")
+    if ((path[0] == '\\' && path[1] == '\\') || (path[0] == '/' && path[1] == '/')) {
+        return FALSE; // Absolute path
+    }
+
+    return TRUE; // Relative path
+}
+
+
 int b64invs[] = {62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58,
                  59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5,
                  6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -68,7 +128,7 @@ char *b64Encode(const unsigned char *in, SIZE_T len)
     return out;
 }
 
-SIZE_T b64DecodedSize(const char *in)
+size_t b64DecodedSize(const char *in)
 {
     SIZE_T len;
     SIZE_T ret;

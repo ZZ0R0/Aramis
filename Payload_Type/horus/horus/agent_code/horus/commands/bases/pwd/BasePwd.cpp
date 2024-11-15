@@ -1,7 +1,7 @@
 #include "BasePwd.h"
 
-BOOL basePwd(std::string &output)
+BOOL basePwd(char* output, size_t outputSize)
 {
-    output = currentDirectory;
+    CustomStrCopy(output, currentDirectory, outputSize);
     return TRUE;
 }
