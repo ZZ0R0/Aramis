@@ -1,5 +1,8 @@
 #include "WrapLs.h"
 #include "BaseLs.h"
+#include <windows.h>
+#include <cstdio>
+#include <typeinfo>
 
 BOOL wrapLs(PParser arguments)
 {
@@ -7,10 +10,13 @@ BOOL wrapLs(PParser arguments)
     PCHAR taskUuid = getString(arguments, &uuidLength);
     UINT32 nbArg = getInt32(arguments);
     SIZE_T size = 0;
-    PCHAR cmd = getString(arguments, &size);
+    PCHAR path = getString(arguments, &size);
 
-    cmd = (PCHAR)LocalReAlloc(cmd, size + 1, LMEM_MOVEABLE | LMEM_ZEROINIT);
+    path = (PCHAR)LocalReAlloc(path, size + 1, LMEM_MOVEABLE | LMEM_ZEROINIT);
 
+    printf("[LS] Listing directory: %s\n", path);
+    printf("[LS] length of path variable: %d\n", size);
+    printf("[LS] type of path variable: %s\n", typeid(path).name());
 
     PPackage responseTask = newPackage(POST_RESPONSE, TRUE);
     addString(responseTask, taskUuid, FALSE);
@@ -18,12 +24,12 @@ BOOL wrapLs(PParser arguments)
     PPackage output = newPackage(0, FALSE);
     
     std::string result;
-    BOOL success = baseLs(result);
+    BOOL success = baseLs(path, result);
 
     if (!success)
     {
         char result[256];
-        snprintf(result, sizeof(result), "[CD] Error executing command => %s !\n", cmd);
+        snprintf(result, sizeof(result), "[LS] Error listing files in fdirectory => %s !\n", path);
         addString(output, result, FALSE);
         return FALSE;
     }

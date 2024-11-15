@@ -7,7 +7,7 @@
 #include "Parser.h"
 #include "Package.h"
 #include "WrapCd.h"
-#include "WrapExec.h"
+#include "WrapShell.h"
 #include "WrapLs.h"
 #include "WrapPwd.h"
 

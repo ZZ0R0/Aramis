@@ -1,18 +1,18 @@
 #include "BaseCd.h"
 #include <shlwapi.h>  // Include for PathIsRelativeA
 
-BOOL baseCd(std::string newDir)
+BOOL baseCd(std::string path)
 {
     std::string completePath;
 
 
-    if (PathIsRelativeA(newDir.c_str()))
+    if (PathIsRelativeA(path.c_str()))
     {
-        completePath = currentDirectory + "\\" + newDir;
+        completePath = currentDirectory + "\\" + path;
     }
     else
     {
-        completePath = newDir;
+        completePath = path;
     }
 
 

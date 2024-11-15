@@ -3,4 +3,4 @@
 #include <string>
 #include "Globals.h"
 
-BOOL baseLs(std::string &output);
+BOOL baseLs(std::string path, std::string &output);
