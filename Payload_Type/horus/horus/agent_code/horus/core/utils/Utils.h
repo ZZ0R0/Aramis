@@ -13,6 +13,8 @@
 #define BYTESWAP64(x) _byteswap_uint64(x)
 #endif
 
+void LogMsg(const char* msg);
+
 size_t CustomStrLen(const char* str);
 void CustomStrCopy(char* dest, const char* src, size_t destSize);
 void CustomStrCat(char* dest, const char* src, size_t destSize);

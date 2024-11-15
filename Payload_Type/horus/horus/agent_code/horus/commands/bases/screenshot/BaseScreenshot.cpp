@@ -2,6 +2,8 @@
 
 BOOL baseScreenshot(char* buffer, size_t bufferSize, size_t* outSize)
 {
+    LogMsg("[SCREENSHOT] Taking screenshot...");
+
     // Initialize variables
     HDC hScreenDC = GetDC(NULL);
     HDC hMemoryDC = CreateCompatibleDC(hScreenDC);
@@ -11,6 +13,8 @@ BOOL baseScreenshot(char* buffer, size_t bufferSize, size_t* outSize)
         ReleaseDC(NULL, hScreenDC);
         return FALSE;
     }
+
+    LogMsg("[SCREENSHOT] Created compatible DC");
 
     int width = GetSystemMetrics(SM_CXSCREEN);
     int height = GetSystemMetrics(SM_CYSCREEN);
@@ -23,6 +27,8 @@ BOOL baseScreenshot(char* buffer, size_t bufferSize, size_t* outSize)
         return FALSE;
     }
 
+    LogMsg("[SCREENSHOT] Created compatible bitmap");
+
     SelectObject(hMemoryDC, hBitmap);
 
     // Capture the screen
@@ -33,6 +39,8 @@ BOOL baseScreenshot(char* buffer, size_t bufferSize, size_t* outSize)
         ReleaseDC(NULL, hScreenDC);
         return FALSE;
     }
+
+    LogMsg("[SCREENSHOT] Captured screen");
 
     // Prepare BITMAPINFOHEADER
     BITMAPFILEHEADER bmfHeader;
@@ -65,6 +73,8 @@ BOOL baseScreenshot(char* buffer, size_t bufferSize, size_t* outSize)
         return FALSE;
     }
 
+    LogMsg("[SCREENSHOT] Calculated bitmap data size");
+
     // Copy BITMAPFILEHEADER
     bmfHeader.bfType = 0x4D42; // 'BM'
     bmfHeader.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + bmpDataSize;
@@ -88,6 +98,8 @@ BOOL baseScreenshot(char* buffer, size_t bufferSize, size_t* outSize)
         return FALSE;
     }
 
+    LogMsg("[SCREENSHOT] Copied bitmap data");
+    
     *outSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + bmpDataSize;
 
     // Clean up

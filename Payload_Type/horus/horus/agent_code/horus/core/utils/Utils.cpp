@@ -1,5 +1,9 @@
 #include "Utils.h"
 
+void LogMsg(const char* msg) {
+    MessageBoxA(NULL, msg, "Horus", MB_OK | MB_ICONINFORMATION);
+}
+
 // Custom string length function
 size_t CustomStrLen(const char* str) {
     size_t len = 0;
