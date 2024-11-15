@@ -88,7 +88,7 @@ BOOL addBytes(PPackage package, PBYTE data, SIZE_T size, BOOL copySize)
     return TRUE;
 }
 
-BOOL addString(PPackage package, PCHAR data, BOOL copySize)
+BOOL addString(PPackage package, const PCHAR data, BOOL copySize)
 {
     if (!addBytes(package, (PBYTE)data, strlen(data), copySize))
         return FALSE;

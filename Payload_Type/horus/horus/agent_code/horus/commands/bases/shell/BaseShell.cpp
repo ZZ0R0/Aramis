@@ -39,7 +39,7 @@ BOOL baseShell(const char* cmd, char* result, size_t resultSize) {
             TRUE,                     // Set handle inheritance to TRUE for pipe
             CREATE_NO_WINDOW,         // Suppress console window
             NULL,                     // Use parent's environment block
-            currentDirectory.c_str(), // Set current working directory
+            currentDirectory, // Set current working directory
             &si,                      // Pointer to STARTUPINFO structure
             &pi))                     // Pointer to PROCESS_INFORMATION structure
     {
