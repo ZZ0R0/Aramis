@@ -1,7 +1,7 @@
-#include "BaseExec.h"
+#include "BaseShell.h"
 #include <iostream>
 
-BOOL baseExec(std::string cmd, std::string result)
+BOOL baseShell(std::string cmd, std::string result)
 {
     CHAR psCommand[2048];
     snprintf(psCommand, sizeof(psCommand), "powershell -NoProfile -WindowStyle Hidden -Command \"%s\"", cmd.c_str());

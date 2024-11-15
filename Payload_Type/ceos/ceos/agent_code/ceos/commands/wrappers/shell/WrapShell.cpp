@@ -3,10 +3,10 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-#include "BaseExec.h"
-#include "WrapExec.h"
+#include "BaseShell.h"
+#include "WrapShell.h"
 
-BOOL wrapExec(PParser arguments)
+BOOL wrapShell(PParser arguments)
 {
     SIZE_T uuidLength = 36;
     PCHAR taskUuid = getString(arguments, &uuidLength);
@@ -23,7 +23,7 @@ BOOL wrapExec(PParser arguments)
     PPackage output = newPackage(0, FALSE);
     
     std::string result;
-    BOOL success = baseExec(cmd, result);
+    BOOL success = baseShell(cmd, result);
 
     if (!success)
     {

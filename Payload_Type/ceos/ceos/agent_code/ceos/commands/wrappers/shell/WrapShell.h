@@ -4,4 +4,4 @@
 #include "Parser.h"
 #include "Command.h"
 
-BOOL wrapExec(PParser arguments);
+BOOL wrapShell(PParser arguments);

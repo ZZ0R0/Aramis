@@ -5,4 +5,4 @@
 #include <cstdio>
 #include "Globals.h"
 
-BOOL baseExec(std::string cmd, std::string output);
+BOOL baseShell(std::string cmd, std::string &output);
