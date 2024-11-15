@@ -24,8 +24,8 @@ class ShellArguments(TaskArguments):
 class ShellCommand(CommandBase):
     cmd = "shell"
     needs_admin = False
-    help_cmd = "shell {command}"
-    description = "This runs {command} in a terminal."
+    help_cmd = "shell [command] [arguments]"
+    description = "Run a shell command which will translate to a process being spawned with command line: `powershell -NoProfile -WindowStyle Hidden -Command \"[command]\"`"
     version = 1
     author = "@ZZ0R0"
     attackmapping = ["T1059"]
